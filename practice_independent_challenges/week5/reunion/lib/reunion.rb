@@ -31,4 +31,21 @@ class Reunion
     end
   end
 
+  def detailed_breakdown
+    detailed_breakdown = create_nested_hash
+    @activities.each do |activity|
+      activity.participants.each do |name, spent| 
+        detailed_breakdown[name][activity.name]["debts"] = {"sunita" => 5}
+        detailed_breakdown[name][activity.name]["credits"] = {"sunita" => 0}
+      end
+    end
+    detailed_breakdown
+  end
+
+  def create_nested_hash
+    Hash.new do |hash, key|
+      hash[key] = create_nested_hash
+    end
+  end
+
 end

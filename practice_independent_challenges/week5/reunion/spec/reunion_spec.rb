@@ -92,4 +92,44 @@ RSpec.describe "Reuntion" do
 
     expect {reunion.print_summary}.to output("Matt owes $55\nSunita owes $-55\n").to_stdout
   end
+
+  it "print a summary of every person what they owe" do
+    reunion = Reunion.new("1406 BE")
+
+    brunch = Activity.new("Brunch")
+    brunch.add_participant("Matt", 40)
+    brunch.add_participant("Sunita", 30)
+
+    boating = Activity.new("Boating")
+    boating.add_participant("Sunita", 150)
+    boating.add_participant("Matt", 30)
+
+    photo_booth = Activity.new("Photo Booth")
+    photo_booth.add_participant("Sunita", 10)
+    photo_booth.add_participant("Matt", 10)
+
+    reunion.add_activity(brunch)
+    reunion.add_activity(boating)
+    reunion.add_activity(photo_booth)
+
+    expect(reunion.detailed_breakdown).to eq(
+      {"Matt" => 
+        {"Brunch" => 
+          {
+            "debts" => { "Sunita" => 5},
+            "credits" => { "Sunita" => 0}
+          },
+        "Boating" => 
+          {
+            "debts" => { "Sunita" => 60},
+            "credits" => { "Sunita" => 0}
+          },
+        "Photo Booth" =>
+          {
+            "debts" => { "Sunita" => 0},
+            "credits" => { "Sunita" => 0}
+          }
+        }
+      })
+  end
 end

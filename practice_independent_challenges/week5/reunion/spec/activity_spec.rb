@@ -36,4 +36,29 @@ RSpec.describe "Activity" do
 
     expect(brunch.total_cost).to eq(120)
   end
+
+  it "split the total cost evenly among participants" do
+    brunch = Activity.new("Brunch")
+
+    brunch.add_participant("Maria", 20)
+    brunch.add_participant("Bob", 40)
+    brunch.add_participant("Jomah", 60)
+
+    expect(brunch.total_cost).to eq(120)
+    expect(brunch.split).to eq(40)
+  end
+
+  it "split the total cost evenly among participants" do
+    brunch = Activity.new("Brunch")
+
+    brunch.add_participant("Maria", 20)
+    brunch.add_participant("Bob", 40)
+    brunch.add_participant("Jomah", 60)
+
+    expect(brunch.owed).to eq({"Maria" => 20, "Bob" => 0, "Jomah" => -20})
+
+    brunch.add_participant("Lauren", 0)
+
+    expect(brunch.owed).to eq({"Maria" => 10, "Bob" => -10, "Jomah" => -30, "Lauren" => 30})
+  end
 end

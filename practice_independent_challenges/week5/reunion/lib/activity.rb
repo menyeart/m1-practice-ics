@@ -26,5 +26,4 @@ class Activity
     @participants.each { |name, spent| owed_hash[name] = split - spent }
     owed_hash 
   end
-
 end

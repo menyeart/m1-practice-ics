@@ -34,9 +34,10 @@ class Reunion
   def detailed_breakdown
     detailed_breakdown = create_nested_hash
     @activities.each do |activity|
-      activity.participants.each do |name, spent| 
-        detailed_breakdown[name][activity.name]["debts"] = {"sunita" => 5}
-        detailed_breakdown[name][activity.name]["credits"] = {"sunita" => 0}
+      activity.participants.each do |participant, money|
+        detailed_breakdown[participant][activity.name]["owed_me"] = owes_me(activity, participant)
+        detailed_breakdown[participant][activity.name]["owed_them"] = who_owes(activity, participant)
+        detailed_breakdown[participant][activity.name]["amount_owed"] = amount_owed(activity, participant)
       end
     end
     detailed_breakdown
@@ -47,5 +48,18 @@ class Reunion
       hash[key] = create_nested_hash
     end
   end
+
+  def who_owes(activity, participant_name)
+    activity.owed.map { |name, value| name if name != participant_name && value < 0 }.compact
+  end
+
+  def owes_me(activity, participant_name)
+    activity.owed.map { |name, value| name if name != participant_name && value > 0 }.compact
+  end
+
+  def amount_owed(activity, participant)
+    activity.owed[participant] > 0 ? activity.owed[participant] : 0
+  end
+
 
 end

@@ -113,22 +113,47 @@ RSpec.describe "Reuntion" do
     reunion.add_activity(photo_booth)
 
     expect(reunion.detailed_breakdown).to eq(
-      {"Matt" => 
-        {"Brunch" => 
+      {"Matt"=>
+        {
+          "Brunch"=>
           {
-            "debts" => { "Sunita" => 5},
-            "credits" => { "Sunita" => 0}
+            "owed_me"=>["Sunita"], 
+            "owed_them"=>[], 
+            "amount_owed"=>0
           },
-        "Boating" => 
+         "Boating"=>
           {
-            "debts" => { "Sunita" => 60},
-            "credits" => { "Sunita" => 0}
+            "owed_me"=>[], 
+            "owed_them"=>["Sunita"], 
+            "amount_owed"=>60
           },
-        "Photo Booth" =>
+         "Photo Booth"=>
           {
-            "debts" => { "Sunita" => 0},
-            "credits" => { "Sunita" => 0}
-          }
+            "owed_me"=>[], 
+            "owed_them"=>[], 
+            "amount_owed"=>0
+            }
+          },
+       "Sunita"=>
+        {
+          "Brunch"=>
+            {
+              "owed_me"=>[], 
+              "owed_them"=>["Matt"], 
+              "amount_owed"=>5
+            },
+          "Boating"=>
+            {
+              "owed_me"=>["Matt"], 
+              "owed_them"=>[], 
+              "amount_owed"=>0
+            },
+         "Photo Booth"=>
+            {
+              "owed_me"=>[], 
+              "owed_them"=>[], 
+              "amount_owed"=>0
+              }
         }
       })
   end

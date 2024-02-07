@@ -34,15 +34,16 @@ class Curator
   end
 
   def photos_by_artist_origin(origin)
-    photos = []
-    artist_ids = @artists.map { |artist| artist.id if artist.country == origin}.compact
-    artist_ids.each do |id|
-      @photographs.each do |photo|
-        if photo.artist_id == id
-          photos << photo.name
-        end
-      end
-    end
-  photos
+    ids = artist_ids_by_country(origin)
+    all_photos_by_ids(ids)
+  end
+
+  def artist_ids_by_country(country)
+    @artists.map { |artist| artist.id if artist.country == country}.compact
+  end
+
+  def all_photos_by_ids(ids)
+    photos = @photographs.find_all { |photo| ids.include?(photo.artist_id)}
+    photos.map { |photo| photo.name}
   end
 end
